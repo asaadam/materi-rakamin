@@ -4,12 +4,7 @@ import { useUser } from "../hooks/useUser";
 export default function UserPage() {
   const history = useHistory();
   let { id } = useParams();
-  const [_, setUser] = useUser();
-
-  function logout() {
-    setUser({ name: "guest", isLogged: false });
-    history.replace("/");
-  }
+  const [_, setUser, logout] = useUser();
 
   return (
     <div className='App'>
