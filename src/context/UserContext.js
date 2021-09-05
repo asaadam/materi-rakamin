@@ -9,10 +9,9 @@ export default function UserProvider(props) {
     name: "guest",
     isLogged: false,
   });
-  function logout() {
+  const logout = () => {
     setUserInfo({ name: "guest", isLogged: false });
-    history.replace("/");
-  }
+  };
 
   const value = [userInfo, setUserInfo, logout];
   return <UserContext.Provider value={value} {...props} />;

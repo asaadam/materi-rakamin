@@ -30,7 +30,13 @@ export default function Navbar() {
           <Link to='/login'>Login</Link>
         </Menu.Item>
       ) : (
-        <Menu.Item key='/login' icon={<LogoutOutlined />} onClick={logout}>
+        <Menu.Item
+          key='/login'
+          icon={<LogoutOutlined />}
+          onClick={() => {
+            logout();
+            history.replace("/");
+          }}>
           Logout
         </Menu.Item>
       )}

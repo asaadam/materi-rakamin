@@ -14,7 +14,13 @@ export default function UserPage() {
       <Link to='/user/test'>
         <button>Test</button>
       </Link>
-      <button onClick={logout}> Logout </button>
+      <button
+        onClick={() => {
+          logout();
+          history.replace("/");
+        }}>
+        Logout{" "}
+      </button>
       <Switch>
         <Route path='/user/test' exact>
           <div>Test inside user</div>
