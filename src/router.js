@@ -12,11 +12,14 @@ export default function Router() {
       <Navbar />
       <Layout>
         <Switch>
-          <PrivateRoute allowed={user.isLogged} path='/user/' redirect='/login'>
+          <PrivateRoute
+            allowed={user.name !== "guest"}
+            path='/user/'
+            redirect='/login'>
             <UserPage />
           </PrivateRoute>
           <PrivateRoute
-            allowed={user.isLogged}
+            allowed={user.name !== "guest"}
             path='/user/:id'
             redirect='/login'>
             <UserPage />

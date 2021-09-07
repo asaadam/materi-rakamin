@@ -35,7 +35,8 @@ export default function HomePage() {
     <div className='App'>
       <Title>Halaman Utama</Title>
       <h4>Halo {user.name}</h4>
-      {user.isLogged ? (
+      {user.email && <h4>Halo e-mail anda adalah {user.email}</h4>}
+      {user.name !== "guest" ? (
         <p>
           Menuju Halaman User{" "}
           <Link to='/user'>

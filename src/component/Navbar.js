@@ -25,7 +25,7 @@ export default function Navbar() {
       <Menu.Item key='/user' icon={<UserOutlined />}>
         <Link to='/user'>Halaman User</Link>
       </Menu.Item>
-      {!user.isLogged ? (
+      {user.name === "guest" ? (
         <Menu.Item key='/login' icon={<LoginOutlined />}>
           <Link to='/login'>Login</Link>
         </Menu.Item>
@@ -35,7 +35,6 @@ export default function Navbar() {
           icon={<LogoutOutlined />}
           onClick={() => {
             logout();
-            history.replace("/");
           }}>
           Logout
         </Menu.Item>
