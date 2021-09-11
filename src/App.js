@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { axiosInstace } from "./shared/AxiosInstance";
+import { useEffect } from "react/cjs/react.development";
+import React from "react";
+import { Route, Switch, useHistory } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import TableGif from "./Component/Table";
+import TableContainer from "./Component/TableContainer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path='/' component={TableContainer} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
