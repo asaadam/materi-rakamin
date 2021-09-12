@@ -1,18 +1,16 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { axiosInstace } from "./shared/AxiosInstance";
-import { useEffect } from "react/cjs/react.development";
 import React from "react";
-import { Route, Switch, useHistory } from "react-router";
+import { Route, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import TableGif from "./Component/Table";
-import TableContainer from "./Component/TableContainer";
+import Home from "./Pages/Home";
+import UploadPage from "./Pages/UploadPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' component={TableContainer} />
+        <Route path='/' component={Home} exact />
+        <Route path='/upload' component={UploadPage} />
       </Switch>
     </BrowserRouter>
   );

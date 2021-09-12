@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useHistory, useLocation } from "react-router";
-import { axiosInstace } from "../shared/AxiosInstance";
+import { axiosInstace } from "../../../shared/AxiosInstance";
 import TableGif from "./Table";
+import { Pagination } from "antd";
 const columns = [
   {
     title: "Gif Name",
@@ -32,9 +33,10 @@ const columns = [
 
 export default function TableContainer() {
   const [dataSource, setDataSource] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
   const history = useHistory();
   const location = useLocation();
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const [page, setPage] = React.useState(1);
   const onPageChange = (page) => {
     setPage(page);
@@ -42,16 +44,15 @@ export default function TableContainer() {
   };
 
   useEffect(() => {
-    //extract query from location
-    // set state for page
-    console.log(location);
-  }, [location]);
+    const data = new URLSearchParams(location.search);
+    setPage(data.get("page") ? parseInt(data.get("page"), 10) : 1);
+  }, [location.search]);
 
   useEffect(() => {
     const getTrendingGifs = async () => {
       setIsLoading(true);
       const { data } = await axiosInstace.get("/trending", {
-        params: { limit: 10, offset: page * 10 },
+        params: { limit: 10, offset: (page - 1) * 10 },
       });
       setDataSource(data);
       setIsLoading(false);
@@ -60,12 +61,28 @@ export default function TableContainer() {
   }, [page]);
 
   return (
-    <TableGif
-      columns={columns}
-      dataSource={dataSource}
-      isLoading={isLoading}
-      page={page}
-      onPageChange={onPageChange}
-    />
+    <>
+      <TableGif
+        columns={columns}
+        dataSource={dataSource}
+        isLoading={isLoading}
+        page={page}
+        onPageChange={onPageChange}
+      />
+      <Pagination
+        style={{
+          paddingTop: 24,
+          width: "fit-content",
+          marginLeft: "auto",
+          marginRight: "auto",
+          paddingBottom: 24,
+        }}
+        onChange={onPageChange}
+        defaultCurrent={1}
+        current={page}
+        total={dataSource?.pagination?.total_count}
+        showSizeChanger={false}
+      />
+    </>
   );
 }
