@@ -1,8 +1,27 @@
 import { useState } from "react";
 import "./App.css";
 
+//conditional rendering with pattern matching
+function renderError(error) {
+  switch (error) {
+    case "loading":
+      return <h1>Lagi loading tong</h1>;
+    case "empty":
+      return (
+        <h1 style={{ color: "red" }}>
+          Eh lagi Error empty, tolong diisi dulu tong
+        </h1>
+      );
+    case "space":
+      return <h1 style={{ color: "pink" }}>ga bisa pake spasi tong</h1>;
+    default:
+      return null;
+  }
+}
+
 function App() {
   const [listTodo, setListTodo] = useState([]);
+
   const [userInput, setUserInput] = useState("");
   const [error, setError] = useState(null);
 
@@ -14,10 +33,14 @@ function App() {
       setUserInput("");
       return;
     }
-    setError("Eh Error Jangan Asal Submit, Diisi Dulu!");
+    setError("empty");
   }
 
   function handleChange(event) {
+    if (event.target.value.includes(" ")) {
+      return setError("space");
+    }
+    setError(null);
     setUserInput(event.target.value);
   }
 
@@ -37,15 +60,19 @@ function App() {
             value={userInput}
           />
         </div>
-        {error && <p style={{ color: "red" }}>Error {error}</p>}
+        {renderError(error)}
         <button type='submit'>Submit</button>
       </form>
-      {listTodo.map((val, index) => (
-        <ul key={`${val} ${index}`}>
-          <li>{val}</li>
-          <button onClick={() => handleDelete(val)}>Delete</button>
-        </ul>
-      ))}
+      {listTodo.length > 0 ? (
+        listTodo.map((val, index) => (
+          <ul key={`${val} ${index}`}>
+            <li>{val}</li>
+            <button onClick={() => handleDelete(val)}>Delete</button>
+          </ul>
+        ))
+      ) : (
+        <h1>Belom ada todo</h1>
+      )}
     </div>
   );
 }
