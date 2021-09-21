@@ -3,6 +3,8 @@ import { useHistory, useLocation } from "react-router";
 import { axiosInstace } from "../../../shared/AxiosInstance";
 import TableGif from "./Table";
 import { Pagination } from "antd";
+import GifCard from "./ListGifCard";
+
 const columns = [
   {
     title: "Gif Name",
@@ -36,6 +38,7 @@ export default function TableContainer() {
   const history = useHistory();
   const location = useLocation();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [width, setWidth] = React.useState(0);
 
   const [page, setPage] = React.useState(1);
   const onPageChange = (page) => {
@@ -60,15 +63,30 @@ export default function TableContainer() {
     getTrendingGifs();
   }, [page]);
 
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+
   return (
     <>
-      <TableGif
-        columns={columns}
-        dataSource={dataSource}
-        isLoading={isLoading}
-        page={page}
-        onPageChange={onPageChange}
-      />
+      {width < 756 ? (
+        dataSource?.data?.map((data) => (
+          <GifCard
+            imageUrl={data.images.downsized.url}
+            title={data.title}
+            username={data.username}
+          />
+        ))
+      ) : (
+        <TableGif
+          columns={columns}
+          dataSource={dataSource}
+          isLoading={isLoading}
+          page={page}
+          onPageChange={onPageChange}
+        />
+      )}
+
       <Pagination
         style={{
           paddingTop: 24,
